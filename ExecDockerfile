@@ -1,0 +1,7 @@
+FROM frolvlad/alpine-java 
+LABEL maintainer="Narayan Punekar"
+LABEL description="This Dockerfile installs cardlayout"
+COPY ./target/cardlayout-1.0-SNAPSHOT.jar memoryheapcardlayout-app.jar  
+#Install memoryheapcardlayout-app JAVA_OPTS
+ENTRYPOINT exec java $JAVA_OPTS -jar memoryheapcardlayout-app.jar 
+
