@@ -44,7 +44,7 @@ pipeline {
 			steps { 
 				sh "docker container rm -f memoryheap-cardlayout-app" 
 				sh "docker rmi \$(docker images -f "dangling=true" -q)" 
-				sh "docker run -d -p 9190:8080 -e JAVA_OPTS='-Xms512M -Xmx1024M' --name memoryheap-cardlayout-app npunekar/memoryheap-cardlayout-app"
+				sh "docker run -d -p 9089:8080 -e JAVA_OPTS='-Xms512M -Xmx1024M' --name memoryheap-cardlayout-app npunekar/memoryheap-cardlayout-app"
 			}
 		}
     }
