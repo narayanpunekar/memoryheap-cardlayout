@@ -30,19 +30,21 @@ pipeline {
 		}
 		stage("Docker build") {
 			steps {
-				sh "docker build -f ExecDockerfile -t npunekar/memoryheap-cardlayout ."
+				sh "docker build -f ExecDockerfile -t npunekar/memoryheap-cardlayout-app ."
 			}
 		}
 		stage("Docker push") {
 			steps {
 				sh "cat ./password | docker login --username npunekar --password-stdin"  
-				sh "docker push npunekar/memoryheap-cardlayout"
+				sh "docker push npunekar/memoryheap-cardlayout-app"
 				sh "docker logout" 
 			}
 		}
 		stage("Deploy to staging") {
 			steps { 
-				sh "docker run -d -p 8766:8080 -e JAVA_OPTS='-Xms3G -Xmx4G' --name memoryheap-cardlayout-app npunekar/memoryheap-cardlayout"
+				sh "docker container rm -f memoryheap-cardlayout-app" 
+				sh "docker rmi \$(docker images -f "dangling=true" -q)" 
+				sh "docker run -d -p 9190:8080 -e JAVA_OPTS='-Xms512M -Xmx1024M' --name memoryheap-cardlayout-app npunekar/memoryheap-cardlayout-app"
 			}
 		}
     }
